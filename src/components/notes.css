@@ -1,0 +1,106 @@
+.note {
+
+    display: flex;
+    cursor: pointer;
+
+}
+
+.roundWord {
+
+    border: 2px solid #000;
+    border-radius: 35px;
+    max-width: 50px;
+    max-height: 50px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    border-style: none;
+    margin-top: 20px;
+    margin-left: 30px;
+    font-weight: 700;
+    font-size: x-large;
+
+}
+
+.heading {
+    font-size: x-large;
+    margin: 30px 25px;
+}
+
+header {
+    display: flex;
+    background-color: #E8E8E8;
+}
+
+.key,
+span {
+    font-size: 20px;
+    padding: 15px;
+    font-size: 28px;
+    text-align: left;
+}
+
+.key {
+    margin-top: 8px;
+    margin-left: 20px;
+}
+
+.overall {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+span {
+    border: 2px solid #000;
+    /* Black border */
+    border-radius: 35px;
+    max-width: 80px;
+    max-height: 80px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    border-style: none;
+    margin-top: 15px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: x-large;
+    background-color: blue;
+}
+
+.inputText {
+    height: 150px;
+    width: 60vw;
+    margin: 30px;
+    border-radius: 10px;
+    border-style: none;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: left;
+}
+
+.note-list {
+    justify-content: right;
+    width: 70vw;
+    height: 55vh;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #F7ECDC;
+    font-size: 20px;
+}
+
+.note-item{
+    display: flex;
+    font-size: 10px;
+}
+
+.contentInput{
+    font-size: 20px;
+    margin-left: 20px;
+}

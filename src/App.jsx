@@ -1,42 +1,58 @@
-import { useState } from 'react';
-import image from './assets/bgimage.png';
+
+import { useState, useEffect } from 'react';
 import './index.css';
 import Notes from './components/Notes';
-import NotesContent from './components/NotesContent';
+import RightContainer from './components/RightContainer';
 
 
 function Modal({ onClose, onSubmit }) {
-  const [groupName, setGroupName] = useState("");
-
-  const handleSubmit = () => {
-    onSubmit(groupName);
-    onClose();
-  };
-
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <h2>Create a New Note</h2>
-        <label htmlFor="createGroup">Group Name: </label>
-        <input
-          id="createGroup"
-          type="text"
-          placeholder="Enter your group name"
-          onChange={(e) => setGroupName(e.target.value)}
-          value={groupName}
-        />
-        <button onClick={handleSubmit}>Create</button>
-        <button onClick={onClose}>X</button>
+    const [groupName, setGroupName] = useState("");
+  
+    const handleSubmit = () => {
+      onSubmit(groupName);
+      onClose();
+    };
+    const handleKey = (e) =>{
+      if(e.key==="Enter"){
+        handleSubmit()
+      }
+    };
+    return (
+      <div className="modal">
+        <div className="modal-content">
+        <button className="closeButton" onClick={onClose}>X</button>
+          <h3>Create New Notes Group</h3>
+          <label htmlFor="createGroup">Group Name: </label>
+          <input
+            id="createGroup"
+            type="text"
+            placeholder="Enter your group name"
+            onChange={(e) => setGroupName(e.target.value)}
+            value={groupName}
+            onKeyPress={handleKey}
+          />
+          <button className="createButton" onClick={handleSubmit}>Create</button>
+          
+        </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
+  
 export default function App() {
   const [showNotes, setShowNotes] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [notes, setNotes] = useState([]); // State for storing created notes
-  const [title, setTitle] = useState("")
+  const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    const storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+    setNotes(storedNotes);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
+
   const createNewNote = () => {
     setShowModal(true);
   };
@@ -46,38 +62,33 @@ export default function App() {
   };
 
   const addNote = (groupName) => {
-    setNotes([...notes, groupName]);
+    if (groupName.trim() !== "") {
+      setNotes([...notes, groupName]);
+    }
   };
 
-  const openingNotePage = (note)=>{
-    setTitle(note)
-    setShowNotes(!showNotes)
-    
-  }
+  const openingNotePage = (note) => {
+    setTitle(note);
+    setShowNotes(true);
+  };
+
   return (
     <>
       {showModal && <Modal onClose={closeModal} onSubmit={addNote} />}
       <div className="container">
         <div className='leftContainer'>
           <h2>Pocket Notes</h2>
-          <button className= "createNewNotes" onClick={createNewNote}>&nbsp;+ Create Notes group</button>
-          <div className='notesList' >  {/* New notes heading created here  */}
+          <button className="createNewNotes" onClick={createNewNote}>
+            + Create Notes group
+          </button>
+          <div className='notesList'>
             {notes.map((note, index) => (
-              <Notes key={index} heading={note} onClick={()=>openingNotePage(note)} />
+              <Notes key={index} heading={note} onClick={() => openingNotePage(note)} />
             ))}
           </div>
         </div>
-        <div className='rightContainer'>
-          {showNotes ? <NotesContent name ={title}/>:(
-            <>
-              <img src={image} alt="background Image" />
-              <h1>Pocket Notes</h1>
-              <p>Send and received messages without keeping your phone online. Use Pocket Notes on up to 4 linked devices and 1 mobile phone</p>
-            </>
-          )}
-        </div>
+        <RightContainer showNotes={showNotes} title={title} />
       </div>
-
     </>
   );
 }
